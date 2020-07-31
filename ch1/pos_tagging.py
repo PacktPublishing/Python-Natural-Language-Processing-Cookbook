@@ -1,8 +1,8 @@
 import nltk
 import time
 import spacy
-from dividing_into_sentences import divide_into_sentences_nltk
-from tokenization import tokenize_nltk
+from ch1.dividing_into_sentences import divide_into_sentences_nltk
+from ch1.tokenization import tokenize_nltk
 
 nlp = spacy.load("en_core_web_sm")
 
