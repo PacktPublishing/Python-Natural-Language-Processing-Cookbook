@@ -30,10 +30,9 @@ def main():
     df = pd.read_csv(data_file, encoding='utf-8')
     emails = get_emails(df)
     new_df = pd.DataFrame(emails,columns=['emails'])
-    input_string = "rohitt.sheeelvant@prelim.com"
+    input_string = "rohitt.macdonald@prelim.com"
     email = get_closest_email_jaro(new_df, input_string)
     print(email)
 
 if (__name__ == "__main__"):
     main()
-    print(Levenshtein.jaro_winkler("rohit.sheelvant@prolim.com", "rohit.sheelvant@prolim.org"))
