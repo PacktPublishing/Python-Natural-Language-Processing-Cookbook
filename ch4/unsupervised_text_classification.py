@@ -58,11 +58,11 @@ def get_most_frequent_words(text):
     top_200 = [word[0] for word in top_200]
     return top_200
 
-def print_most_common_words_by_cluster(all_training, km):
+def print_most_common_words_by_cluster(all_training, km, num_clusters):
     clusters = km.labels_.tolist()
     docs = {'text': all_training, 'cluster': clusters}
     frame = pd.DataFrame(docs, index = [clusters])
-    for cluster in range(0, 5):
+    for cluster in range(0, num_clusters):
         this_cluster_text = frame[frame['cluster'] == cluster]
         all_text = " ".join(this_cluster_text['text'].astype(str))
         top_200 = get_most_frequent_words(all_text)
@@ -78,14 +78,14 @@ def main():
     for topic in train_dict.keys():
         all_training = all_training + train_dict[topic]
     for topic in test_dict.keys():
-        all_test = all_test + train_dict[topic]
+        all_test = all_test + test_dict[topic]
     vectorizer = create_vectorizer(all_training)
     matrix = vectorizer.transform(all_training)
     km = KMeans(n_clusters=5, init='k-means++', random_state=0)
     km.fit(matrix)
     predicted_data = make_predictions(test_dict, vectorizer, km)
     print_report(predicted_data)
-    print_most_common_words_by_cluster(all_training, km)
+    print_most_common_words_by_cluster(all_training, km, 5)
     pickle.dump(km, open("ch4/bbc_kmeans.pkl", "wb"))
 
 if (__name__ == "__main__"):
