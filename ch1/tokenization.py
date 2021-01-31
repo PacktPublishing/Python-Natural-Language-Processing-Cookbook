@@ -24,7 +24,7 @@ def tokenize(text):
     return tokenize_spacy(text)
 
 def main():
-    sherlock_holmes_text = read_text_file("sherlock_holmes_1.txt")
+    sherlock_holmes_text = read_text_file("ch1/sherlock_holmes_1.txt")
     sherlock_holmes_text = preprocess_text(sherlock_holmes_text)
     words = tokenize(sherlock_holmes_text)
     print(words)

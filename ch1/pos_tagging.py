@@ -31,7 +31,7 @@ def pos_tag(text):
     return words_with_pos
 
 def main():
-    sherlock_holmes_text = read_text_file("sherlock_holmes_1.txt")
+    sherlock_holmes_text = read_text_file("ch1/sherlock_holmes_1.txt")
     sherlock_holmes_text = preprocess_text(sherlock_holmes_text)
     words_with_pos = pos_tag(sherlock_holmes_text)
     print(words_with_pos)

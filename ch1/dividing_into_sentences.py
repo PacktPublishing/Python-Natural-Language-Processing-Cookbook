@@ -22,10 +22,10 @@ def divide_into_sentences_spacy(text):
     return [sentence.text for sentence in doc.sents]
 
 def divide_into_sentences(text):
-    return divide_into_sentences_spacy(text)
+    return divide_into_sentences_nltk(text)
 
 def main():
-    sherlock_holmes_text = read_text_file("sherlock_holmes_1.txt")
+    sherlock_holmes_text = read_text_file("ch1/sherlock_holmes_1.txt")
     sherlock_holmes_text = preprocess_text(sherlock_holmes_text)
     sentences = divide_into_sentences(sherlock_holmes_text)
     print(sentences)
