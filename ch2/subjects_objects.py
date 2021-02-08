@@ -44,11 +44,11 @@ def main():
         subject_phrase = get_subject_phrase(doc)
         object_phrase = get_object_phrase(doc)
         dative_phrase = get_dative_phrase(doc)
-        prepositional_phrase_objs = get_prepositional_phrases(doc)
+        prepositional_phrase_objs = get_prepositional_phrase_objs(doc)
         print(subject_phrase)
         print(object_phrase)
         print(dative_phrase)
-        print(prepositional_phrases)
+        print(prepositional_phrase_objs)
 
 if (__name__ == "__main__"):
     main()

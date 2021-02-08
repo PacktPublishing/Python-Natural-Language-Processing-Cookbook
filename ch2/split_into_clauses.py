@@ -66,13 +66,13 @@ def get_clauses(sentence):
         end = token_span[1]
         if (start < end):
             clause = doc[start:end]
-            if (potential_clause_contains_subj(clause)):
-                sentence_clauses.append(clause)
+            #if (potential_clause_contains_subj(clause)):
+            sentence_clauses.append(clause)
     sentence_clauses = sorted(sentence_clauses, key=lambda tup: tup[0])
     return sentence_clauses
 
 def main():
-    clauses = get_clauses(compound_sentence)
+    clauses = get_clauses(complex_sentence)
     clauses_text = [clause.text for clause in clauses]
     print(clauses_text)
 

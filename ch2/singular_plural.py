@@ -52,12 +52,7 @@ def get_singular(plural_noun):
 
 def get_nouns(words_with_pos):
     noun_set = ["NN", "NNS"]
-    nouns = []
-    for word_info in words_with_pos:
-        word = word_info[0]
-        pos = word_info[1]
-        if (pos in noun_set):
-            nouns.append(word_info)
+    nouns = [word for word in words_with_pos if word[1] in noun_set]
     return nouns
 
 def plurals_wn(words_with_pos):
@@ -91,7 +86,7 @@ def main():
     sherlock_holmes_text = preprocess_text(sherlock_holmes_text)
     words_with_pos = pos_tag_nltk(sherlock_holmes_text)
     nouns = get_nouns(words_with_pos)
-    #print(nouns)
+    print(nouns)
     #other_nouns_wn = plurals_wn(nouns)
     #print(other_nouns_wn)
     #other_nouns_nltk = plurals_nltk(nouns)
