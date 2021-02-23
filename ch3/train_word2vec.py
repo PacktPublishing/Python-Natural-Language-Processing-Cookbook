@@ -12,7 +12,7 @@ books_dir = "1025_1853_bundle_archive"
 evaluation_file = "ch3/questions-words.txt"
 pretrained_model_path = "ch3/40/model.bin"
 
-def train_word2vec(words):
+def train_word2vec(words, word2vec_model_path):
     #model = gensim.models.Word2Vec(
     #    words,
     #    size=50,
@@ -59,4 +59,3 @@ def main():
 
 if (__name__ == "__main__"):
     main()
-

@@ -6,7 +6,7 @@ from ch1.removing_stopwords import read_in_csv
 from ch3.bag_of_words import get_sentences
 
 stemmer = SnowballStemmer('english')
-stopwords_file_path = "C:/Users/zhenya/Documents/Zhenya/consulting/book/code/python-natural-language-processing--cookbook/ch1/stopwords.csv"
+stopwords_file_path = "ch1/stopwords.csv"
 
 def tokenize_and_stem(sentence):
     tokens = nltk.word_tokenize(sentence)
@@ -48,7 +48,7 @@ def create_vectorizer(sentences):
 
 def main():
     sentences = get_sentences("sherlock_holmes_1.txt")
-    (vectorizer, matrix) = create_char_vectorizer(sentences)
+    (vectorizer, matrix) = create_vectorizer(sentences)
 
 
 if (__name__ == "__main__"):

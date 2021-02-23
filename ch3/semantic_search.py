@@ -71,10 +71,7 @@ class IMDBSearchEngine:
 
 def get_similar_words(model, search_term):
     similarity_list = model.most_similar(search_term, topn=3)
-    similar_words = []
-    for sim_tuple in similarity_list:
-        word = sim_tuple[0]
-        similar_words.append(word)
+    similar_words = [sim_tuple[0] for sim_tuple in similarity_list]
     return similar_words
 
 def main():
