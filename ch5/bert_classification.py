@@ -9,7 +9,7 @@ from sklearn.metrics import classification_report
 from ch4.svm_classification import split_dataset
 from ch4.twitter_sentiment import read_existing_file, clean_data, plot_model
 
-batch_size = 32
+BATCH_SIZE = 32
 DATASET_SIZE = 4000
 english_twitter = "ch4/twitter_english.csv"
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
@@ -56,9 +56,9 @@ def encode_data(df):
     return tf.data.Dataset.from_tensor_slices((input_ids_list, attention_mask_list, token_type_ids_list, label_list)).map(map_inputs_to_dict)
 
 
-def prepare_dataset(df):
+def prepare_dataset(df, size=int(DATASET_SIZE/2)):
     df = clean_data(df)
-    df = pd.concat([df.head(int(DATASET_SIZE/2)),df.tail(int(DATASET_SIZE/2))])
+    df = pd.concat([df.head(size),df.tail(size)])
     df = df.sample(frac = 1)
     ds = encode_data(df)
     return ds
@@ -68,11 +68,11 @@ def load_existing_model(export_dir):
     return model
 
 
-def get_test_train_val_datasets(ds):
+def get_test_train_val_datasets(ds, size=DATASET_SIZE, batch_size=BATCH_SIZE):
     ds.shuffle(32)
-    train_size = int(0.7 * DATASET_SIZE)
-    val_size = int(0.15 * DATASET_SIZE)
-    test_size = int(0.15 * DATASET_SIZE)
+    train_size = int(0.7 * size)
+    val_size = int(0.15 * size)
+    test_size = int(0.15 * size)
     train_dataset = ds.take(train_size).batch(batch_size)
     test_dataset = ds.skip(train_size)
     val_dataset = test_dataset.skip(test_size).batch(batch_size)
@@ -91,12 +91,6 @@ def fine_tune_model(ds, export_dir):
     bert_history = model.fit(train_dataset, epochs=number_of_epochs, validation_data=val_dataset)
     model.save_pretrained(export_dir)
     return model
-
-#accr = model.evaluate(X_test,Y_test)
-#print('Test set\n  Loss: {:0.3f}\n  Accuracy: {:0.3f}'.format(accr[0],accr[1]))
-#plot_model(bert_history)
-
-
 
 def evaluate_model(model, X_test, y_test):
     y_pred = []
@@ -117,11 +111,11 @@ def test_new_example(model_path, tweet):
     print(new_label)
     return new_label
 
-def load_and_evaluate_existing_model(export_dir):
+def load_and_evaluate_existing_model(export_dir, num_points=200):
     model = load_existing_model(export_dir)
     df = read_existing_file(english_twitter)
     df = clean_data(df)
-    df = pd.concat([df.head(200),df.tail(200)])
+    df = pd.concat([df.head(num_points),df.tail(num_points)])
     (X_train, X_test, y_train, y_test) = split_dataset(df, 'tweet', 'sentiment')
     evaluate_model(model, X_test, y_test)
 

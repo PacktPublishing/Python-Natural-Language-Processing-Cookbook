@@ -12,22 +12,20 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 import tensorflow as tf
 from keras import Sequential
-from tensorflow.keras.layers import Embedding
-from tensorflow.keras.layers import SpatialDropout1D
-from tensorflow.keras.layers import LSTM
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Embedding, SpatialDropout1D, LSTM, Dense
 from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 from ch4.lstm_classification import plot_model, save_tokenizer, load_tokenizer
 
 
-MAX_NB_WORDS = 50000
+MAX_NUM_WORDS = 50000
 EMBEDDING_DIM = 500
+twitter_csv = "ch5/training.1600000.processed.noemoticon.csv"
+english_twitter = "ch5/twitter_english.csv"
 
 tqdm.pandas()
 
-twitter_csv = "ch4/training.1600000.processed.noemoticon.csv"
-english_twitter = "ch4/twitter_english.csv"
+
 
 def evaluate(clf, X_test, y_test):
     y_pred = clf.predict(X_test)
@@ -50,10 +48,10 @@ def segment_hashtags(tweet):
     return tweet
     
 
-def filter_english(df):
+def filter_english(df, save_path):
     df['language'] = df['tweet'].progress_apply(lambda t: lang_detect(t))
     df = df[df['language'] == 'en']
-    df.to_csv("ch4/twitter_english.csv", encoding="latin1")
+    df.to_csv(save_path, encoding="latin1")
     return df
 
 def clean_data(df):
@@ -73,58 +71,47 @@ def clean_data(df):
     df['sentiment'] = df['sentiment'].apply(lambda t: 1 if t==4 else t)
     return df
 
-def get_data(filename):
+def get_data(filename, save_path, num_datapoints=80000):
     df = pd.read_csv(filename, encoding="latin1")
     df.columns = ['sentiment', 'id', 'date', 'query', 'username', 'tweet']
-    df = pd.concat([df.head(80000),df.tail(80000)])
-    df = filter_english(df)
+    df = pd.concat([df.head(num_datapoints),df.tail(num_datapoints)])
+    df = filter_english(df, save_path)
     return df
-
-def save_model(model):
-    model.save('ch4/twitter_model.h5')
 
 
 def train_model(df):
-    tokenizer = Tokenizer(num_words=MAX_NB_WORDS, filters='!"#$%&()*+,-./:;<=>?@[\]^_`{|}~', lower=True)
+    tokenizer = Tokenizer(num_words=MAX_NUM_WORDS, filters='!"#$%&()*+,-./:;<=>?@[\]^_`{|}~', lower=True)
     tokenizer.fit_on_texts(df['tweet'].values)
-    save_tokenizer(tokenizer, 'ch4/twitter_tokenizer.pkl')
+    save_tokenizer(tokenizer, 'ch5/twitter_tokenizer.pkl')
     X = tokenizer.texts_to_sequences(df['tweet'].values)
     X = pad_sequences(X)
     Y = df['sentiment'].values
-    X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size = 0.20, random_state = 42)
+    X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size=0.20, random_state=42, stratify=df['sentiment'])
     model = Sequential()
     optimizer = tf.keras.optimizers.Adam(0.00001)
-    model.add(Embedding(MAX_NB_WORDS, EMBEDDING_DIM, input_length=X.shape[1]))
+    model.add(Embedding(MAX_NUM_WORDS, EMBEDDING_DIM, input_length=X.shape[1]))
     model.add(SpatialDropout1D(0.2))
-    model.add(LSTM(100, dropout=0.2, recurrent_dropout=0.2))
+    model.add(LSTM(100, dropout=0.5, recurrent_dropout=0.5, return_sequences=True))
+    model.add(LSTM(100, dropout=0.5, recurrent_dropout=0.5))
     model.add(Dense(1, activation='sigmoid'))
     loss='binary_crossentropy' #Binary in this case
     model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
-    epochs = 25
+    epochs = 15
     batch_size = 32
-    history = model.fit(X_train, Y_train, epochs=epochs, batch_size=batch_size,validation_split=0.3,callbacks=[EarlyStopping(monitor='val_loss', patience=3, min_delta=0.0001)])
+    es = [EarlyStopping(monitor='val_loss', patience=3, min_delta=0.0001)]
+    history = model.fit(X_train, Y_train, epochs=epochs, batch_size=batch_size, validation_split=0.3, callbacks=es)
     accr = model.evaluate(X_test,Y_test)
     print('Test set\n  Loss: {:0.3f}\n  Accuracy: {:0.3f}'.format(accr[0],accr[1]))
-    save_model(model)
+    model.save('ch5/twitter_model.h5')
     evaluate(model, X_test, Y_test)
     plot_model(history)
 
-def read_existing_file(filename):
-    df = pd.read_csv(filename, encoding="latin1")
-    return df
-
 def main():
-    #df = get_data(twitter_csv)
-    df = read_existing_file(english_twitter)
+    #df = get_data(twitter_csv, "ch5/twitter_english.csv")
+    df = pd.read_csv(english_twitter, encoding="latin1")
     df = clean_data(df)
     train_model(df)
     
 
 if __name__ == "__main__":
     main()
-
-
-    df = get_data(twitter_csv)
-    #df = read_existing_file(english_twitter)
-    df = clean_data(df)
-    train_model(df)

@@ -34,7 +34,6 @@ def get_urls(df):
 
 def main():
     df = pd.read_csv(data_file, encoding='utf-8')
-    descriptions = df['Job Description']
     emails = get_emails(df)
     print(emails)
     print(len(emails))

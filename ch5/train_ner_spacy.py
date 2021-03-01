@@ -111,12 +111,9 @@ def test_model(nlp, data):
         for ent in doc.ents:
             print(ent.text, ent.start_char, ent.end_char, ent.label_)
 
-def without_training():
+def without_training(data=DATA):
     nlp = spacy.load("en_core_web_sm")
-    for text, annotations in DATA:
-        doc = nlp(text)
-        for ent in doc.ents:
-            print(ent.text, ent.start_char, ent.end_char, ent.label_)
+    test_model(nlp, data)
 
 def main():
     #without_training()
@@ -127,13 +124,10 @@ def main():
     test_model(nlp, DATA)
     #save_model(nlp, OUTPUT_DIR)
 
-def load_and_test(model_dir):
+def load_and_test(model_dir, data=DATA):
     nlp = load_model(model_dir)
-    for text, annotations in DATA:
-        doc = nlp(text)
-        for ent in doc.ents:
-            print(ent.text, ent.start_char, ent.end_char, ent.label_)    
+    test_model(nlp, data)
 
 if (__name__ == "__main__"):
-    main()
-    #load_and_test(OUTPUT_DIR)
+    #main()
+    load_and_test(OUTPUT_DIR)
