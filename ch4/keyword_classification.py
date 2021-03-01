@@ -49,7 +49,7 @@ def create_vectorizers(data_dict):
         vectorizer_dict[topic] = CountVectorizer(vocabulary=vocab)
     return vectorizer_dict
 
-def create_dataset(data_dict):
+def create_dataset(data_dict, le):
     data_matrix = []
     classifications = []
     gold_labels = []
@@ -94,7 +94,6 @@ def transform_auto(text, vect_dict, le):
         this_topic_matrix = vectorizer.transform([text])
         this_topic_sum = sum(this_topic_matrix.todense().tolist()[0])
         index = le.transform([topic])[0]
-        #sum_list.append(this_topic_sum)
         sum_list[index] = this_topic_sum
     return np.array(sum_list)
 
@@ -122,7 +121,7 @@ def classify_auto(vector, le):
 
 def main():
     data_dict = get_data(bbc_dataset)
-    (X, y) = create_dataset(data_dict)
+    (X, y) = create_dataset(data_dict, le)
     evaluate(X, y)
 
 def auto():
@@ -144,6 +143,6 @@ def divide_data(data_dict):
     return (train_dict, test_dict)
 
 if (__name__ == "__main__"):
-    auto()
-    #main()
+    #auto()
+    main()
 

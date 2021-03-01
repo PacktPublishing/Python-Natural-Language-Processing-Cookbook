@@ -25,9 +25,8 @@ def tokenize_and_stem(sentence):
     return stems
 
 def create_vectorizer(data):
-    vec = TfidfVectorizer(max_df=0.90, max_features=200000,
-                                    min_df=0.05, stop_words=stopwords,
-                                    use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1,3))
+    vec = TfidfVectorizer(max_df=0.90, min_df=0.05, stop_words=stopwords,
+                          use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1,3))
     vec.fit(data)
     return vec
 
@@ -90,4 +89,5 @@ def main():
 
 if (__name__ == "__main__"):
     main()
+
 

@@ -54,18 +54,17 @@ def create_dataset(data_dict, le):
     frame = pd.DataFrame(docs)
     return frame
 
-def split_dataset(df, train_column_name, gold_column_name):
-    X_train, X_test, y_train, y_test = train_test_split(df[train_column_name], df[gold_column_name], test_size=0.2, random_state=0)
+def split_dataset(df, train_column_name, gold_column_name, test_percent):
+    X_train, X_test, y_train, y_test = train_test_split(df[train_column_name], df[gold_column_name], test_size=test_percent, random_state=0)
     return (X_train, X_test, y_train, y_test)
 
 def create_and_fit_vectorizer(training_text):
-    vec = TfidfVectorizer(max_df=0.90, max_features=200000,
-                                        min_df=0.05, stop_words=stopwords,
-                                        use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1,3))
+    vec = TfidfVectorizer(max_df=0.90, min_df=0.05, stop_words=stopwords,
+                          use_idf=True, tokenizer=tokenize_and_stem, ngram_range=(1,3))
     return vec.fit(training_text)
     
 def train_svm_classifier(X_train, y_train):
-    clf = svm.SVC(C=1, kernel='linear', decision_function_shape='ovo')
+    clf = svm.SVC(C=1, kernel='linear')
     clf = clf.fit(X_train, y_train)
     return clf
 
@@ -84,7 +83,7 @@ def main():
     data_dict = get_data(bbc_dataset)
     le = get_labels(list(data_dict.keys()))
     df = create_dataset(data_dict, le)
-    (X_train, X_test, y_train, y_test) = split_dataset(df, 'text', 'label')
+    (X_train, X_test, y_train, y_test) = split_dataset(df, 'text', 'label', 0.2)
     vectorizer = create_and_fit_vectorizer(X_train)
     X_train = vectorizer.transform(X_train).todense()
     X_test = vectorizer.transform(X_test).todense()
