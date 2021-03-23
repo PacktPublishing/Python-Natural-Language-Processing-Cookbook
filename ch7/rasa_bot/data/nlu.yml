@@ -101,6 +101,10 @@ nlu:
     - are you open today?
     - are you open
 
+- regex: hours
+  examples: |
+    - \bopen\b
+
 - intent: address
   examples: |
     - what is your address?

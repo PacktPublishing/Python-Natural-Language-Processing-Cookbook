@@ -24,7 +24,7 @@ def plot_coherence(id_dict, corpus, texts):
     coherences = []
     for num_topics in num_topics_range:
         nmf_model = create_nmf_model(id_dict, corpus, num_topics)
-        coherence_model_nmf = CoherenceModel(model=nmf_model, texts=texts, dictionary=id_dict, coherence='c_v')
+        coherence_model_nmf = CoherenceModel(model=nmf_model, texts=texts, dictionary=id_dict, coherence='c_npmi')
         coherences.append(coherence_model_nmf.get_coherence())
     plt.plot(num_topics_range, coherences, color='blue', marker='o', markersize=5)
     plt.title('Coherence as a function of number of topics')

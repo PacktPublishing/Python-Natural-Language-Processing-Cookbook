@@ -4,7 +4,6 @@ from gensim.models.ldamodel import LdaModel
 import gensim.corpora as corpora
 from gensim.corpora import MmCorpus
 from gensim.utils import simple_preprocess
-import matplotlib.pyplot as plt
 from pprint import pprint
 from ch6.lda_topic_sklearn import stopwords, bbc_dataset, clean_data, new_example
 
@@ -27,19 +26,6 @@ def create_lda_model(id_dict, corpus, num_topics):
                          chunksize=100,
                          passes=10)
     return lda_model
-
-def plot_perplexity(id_dict, corpus):
-    num_topics_range = range(2, 10)
-    perplexities = []
-    for num_topics in num_topics_range:
-        lda_model = create_lda_model(id_dict, corpus, num_topics)
-        perplexities.append(lda_model.log_perplexity(corpus))
-    plt.plot(num_topics_range, perplexities, color='blue', marker='o', markersize=5)
-    plt.title('Log perplexity as a function of number of topics')
-    plt.xlabel('Number of topics')
-    plt.ylabel('Log perplexity')
-    plt.grid()
-    plt.show()
 
 def save_model(lda, lda_path, id_dict, dict_path, corpus, corpus_path):
     lda.save(lda_path)
