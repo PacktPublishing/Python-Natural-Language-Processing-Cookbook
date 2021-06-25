@@ -132,7 +132,6 @@ def main():
 
 
 if(__name__ == "__main__"):
-    #main()
+    main()
     #test_new_example('Chapter04/bert_twitter_test_model', "I hate going to school")
     #load_and_evaluate_existing_model('Chapter05/bert_twitter_test2_model')
-    print("Done importing")
