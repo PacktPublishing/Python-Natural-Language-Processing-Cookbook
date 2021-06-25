@@ -7,13 +7,19 @@ from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from Chapter04.svm_classification import split_dataset
-from Chapter04.twitter_sentiment import read_existing_file, clean_data, plot_model
+from Chapter05.twitter_sentiment import clean_data, plot_model
 
 BATCH_SIZE = 32
 DATASET_SIZE = 4000
-english_twitter = "Chapter04/twitter_english.csv"
+english_twitter = "Chapter05/twitter_english.csv"
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
 max_length = 200
+
+
+
+def read_existing_file(filename):
+    df = pd.read_csv(filename, encoding="latin1")
+    return df
 
 def map_inputs_to_dict(input_ids, attention_masks, token_type_ids, label):
   return {
@@ -128,4 +134,5 @@ def main():
 if(__name__ == "__main__"):
     #main()
     #test_new_example('Chapter04/bert_twitter_test_model', "I hate going to school")
-    load_and_evaluate_existing_model('Chapter05/bert_twitter_test2_model')
+    #load_and_evaluate_existing_model('Chapter05/bert_twitter_test2_model')
+    print("Done importing")

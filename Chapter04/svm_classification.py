@@ -14,7 +14,7 @@ from Chapter04.keyword_classification import get_labels
 from Chapter04.preprocess_bbc_dataset import get_stopwords
 
 bbc_dataset = "Chapter04/bbc-text.csv"
-stopwords_file_path = "Chapter04/stopwords.csv"
+stopwords_file_path = "Chapter01/stopwords.csv"
 stopwords = get_stopwords(stopwords_file_path)
 
 new_example = """iPhone 12: Apple makes jump to 5G
