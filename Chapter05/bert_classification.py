@@ -17,10 +17,6 @@ max_length = 200
 
 
 
-def read_existing_file(filename):
-    df = pd.read_csv(filename, encoding="latin1")
-    return df
-
 def map_inputs_to_dict(input_ids, attention_masks, token_type_ids, label):
   return {
       "input_ids": input_ids,
@@ -119,14 +115,14 @@ def test_new_example(model_path, tweet):
 
 def load_and_evaluate_existing_model(export_dir, num_points=200):
     model = load_existing_model(export_dir)
-    df = read_existing_file(english_twitter)
+    df = pd.read_csv(english_twitter, encoding="latin1")
     df = clean_data(df)
     df = pd.concat([df.head(num_points),df.tail(num_points)])
     (X_train, X_test, y_train, y_test) = split_dataset(df, 'tweet', 'sentiment')
     evaluate_model(model, X_test, y_test)
 
 def main():
-    df = read_existing_file(english_twitter)
+    df = pd.read_csv(english_twitter, encoding="latin1")
     dataset = prepare_dataset(df)
     model = fine_tune_model(dataset, 'Chapter05/bert_twitter_test2_model')
 
