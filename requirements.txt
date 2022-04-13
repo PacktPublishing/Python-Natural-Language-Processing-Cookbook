@@ -1,5 +1,5 @@
 beautifulsoup4==4.8.2
-gensim==3.8.1
+gensim==3.8.0
 inflect==4.1.0
 jellyfish==0.8.2
 kaggle==1.5.8
@@ -9,6 +9,7 @@ matplotlib==3.3.4
 networkx==2.4
 -e git+https://github.com/huggingface/neuralcoref.git@cc78653d14259b2dfed3280d6a6c87553ba5f8b3#egg=neuralcoref
 nltk==3.4.5
+numpy==1.18.0
 pandas==1.1.5
 plotly==5.3.1
 pyLDAvis==2.1.2
