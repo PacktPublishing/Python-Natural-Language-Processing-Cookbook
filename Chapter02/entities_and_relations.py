@@ -5,7 +5,7 @@ from Chapter02.split_into_clauses import find_root_of_sentence
 nlp = spacy.load('en_core_web_sm')
 sentences = ["All living things are made of cells.", "Cells have organelles."]
 
-verb_patterns = [[{"POS":"AUX"}, {"POS":"VERB"}, {"POS":"ADP"}], [{"POS":"AUX"}]]
+verb_patterns = [[{"POS":"AUX"}, {"POS":"VERB"}, {"POS":"ADP"}], [{"POS":"VERB"}]]
 
 def contains_root(verb_phrase, root):
     vp_start = verb_phrase.start
