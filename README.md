@@ -52,6 +52,11 @@ With the following software and hardware list you can run all code files present
 | -------- | -------------------------------------------------------------------------------------| -----------------------------------|
 |  1 - 8   |   Python 3.6 (Jupyter Notebook / Anaconda)                               				    | Windows, Mac OS X, and Linux (Any) |
 
+Before you run the code, please make sure to:
+1. Install all necessary packages (see requirements.txt)
+2. Download all required models (see text)
+3. Run the files from the Python-Natural-Language-Processing-Cookbook directory using commands similar to the following: python -m Chapter01.po_tagging
+
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://static.packt-cdn.com/downloads/9781838987312_ColorImages.pdf).
 
 
