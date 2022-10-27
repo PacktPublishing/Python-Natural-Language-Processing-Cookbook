@@ -69,3 +69,7 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 **Zhenya Antić** is a Natural Language Processing (NLP) professional working at Practical Linguistics Inc. She helps businesses to improve processes and increase productivity by automating text processing. Zhenya holds a PhD in linguistics from University of California Berkeley and a BS in computer science from Massachusetts Institute of Technology.
 
 
+### Download a free PDF
+
+ <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
+<p align="center"> <a href="https://packt.link/free-ebook/9781838987312">https://packt.link/free-ebook/9781838987312 </a> </p>
